@@ -3,8 +3,8 @@ import { Task } from './task.class';
 
 /*
     Тестируемые кейсы:
-    - должна возвращать false, если задача не завершена
-    - должна завершить задачу
+    - task.isCompleted - должна быть не завершена по умолчанию
+    - task.complete - должна завершить задачу
 */
 describe('Задача', () => {
     let task: ITask;
@@ -13,13 +13,13 @@ describe('Задача', () => {
         task = new Task('Complete project', 'High');
     });
 
-    it('должна быть не завершена по умолчанию', () => {
+    it('task.isCompleted - должна быть не завершена по умолчанию', () => {
         const isCompleted = task.isCompleted();
 
         expect(isCompleted).toBe(false); // Проверяем, что задача не завершена до вызова complete (по умолчанию не завершена)
     });
 
-    it('должна быть завершена после вызова complete', () => {
+    it('task.complete - должна завершить задачу', () => {
         task.complete();
         const isCompleted = task.isCompleted();
 

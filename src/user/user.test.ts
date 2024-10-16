@@ -5,12 +5,12 @@ import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
 
 /*
     Тестируемые кейсы:
-    - должен назначить задачу пользователю
-    - не должен назначать уже назначенную задачу
-    - должен завершить назначенную задачу
-    - не должен завершить неназначенную задачу
-    - не должен завершить задачу, если она уже завершена
-    - должен корректно работать с несколькими задачами
+    - user.assignTask - должен назначать задачу пользователю
+    - user.assignTask - не должен назначать уже назначенную задачу
+    - user.completeTask - должен завершить назначенную задачу
+    - user.completeTask - не должен завершить неназначенную задачу
+    - user.completeTask - не должен завершить задачу, если она уже завершена
+    - user.assignTask и user.completeTask - должены корректно работать с несколькими задачами
 */
 describe('Пользователь и задачи', () => {
     let user: IUser;
@@ -27,14 +27,14 @@ describe('Пользователь и задачи', () => {
         anotherTask.isCompleted.mockReturnValue(false); // Аналогично для второй задачи
     });
 
-    it('должен назначать задачу пользователю', () => {
+    it('user.assignTask - должен назначать задачу пользователю', () => {
         const isAssignedTask = user.assignTask(task);
 
         expect(user.tasks).toContain(task); // Проверяем, что задача была добавлена в массив задач
         expect(isAssignedTask).toBe(true); // Проверяем, что метод вернул true
     });
 
-    it('не должен назначать уже назначенную задачу', () => {
+    it('user.assignTask - не должен назначать уже назначенную задачу', () => {
         user.assignTask(task); // Назначаем задачу
         const isAssignedAgain = user.assignTask(task); // Пытаемся назначить ту же задачу снова
 
@@ -42,7 +42,7 @@ describe('Пользователь и задачи', () => {
         expect(user.tasks.length).toBe(1); // Убедитесь, что задача добавлена только один раз
     });
 
-    it('должен завершить назначенную задачу', () => {
+    it('user.completeTask - должен завершить назначенную задачу', () => {
         user.assignTask(task);
         const isCompletedTask = user.completeTask(task);
 
@@ -50,7 +50,7 @@ describe('Пользователь и задачи', () => {
         expect(isCompletedTask).toBe(true); // Проверяем, что метод вернул true
     });
 
-    it('не должен завершить задачу, которая не была назначена пользователю', () => {
+    it('user.completeTask - не должен завершить неназначенную задачу', () => {
         const isCompletedTask = user.completeTask(task); // Пытаемся завершить задачу, которая не назначена
 
         expect(task.isCompleted()).toBe(false); // Проверяем, что задача не завершена
@@ -58,7 +58,7 @@ describe('Пользователь и задачи', () => {
         expect(isCompletedTask).toBe(false); // Проверяем, что метод вернул false
     });
 
-    it('не должен завершить задачу, если она уже завершена', () => {
+    it('user.completeTask - не должен завершить задачу, если она уже завершена', () => {
         user.assignTask(task);
         task.isCompleted.mockReturnValue(true); // Задача уже завершена
         const isCompletedTask = user.completeTask(task);
@@ -67,7 +67,7 @@ describe('Пользователь и задачи', () => {
         expect(isCompletedTask).toBe(false); // Проверяем, что метод вернул false
     });
 
-    it('должен корректно обрабатывать несколько задач', () => {
+    it('user.assignTask и user.completeTask - должены корректно работать с несколькими задачами', () => {
         user.assignTask(task);
         user.assignTask(anotherTask);
 
